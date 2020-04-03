@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,11 +16,13 @@ import com.jason.bmi.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate:");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.help.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +37,42 @@ public class MainActivity extends AppCompatActivity {
         });
         String hello = getString(R.string.hello);
     }
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart:");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop:");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause:");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume:");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart:");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy:");
+    }
 
     public void bmi(View view) {
         String w = binding.weight.getText().toString();
@@ -44,7 +83,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "BMI: " + bmi);
         Toast.makeText(this,getString(R.string.your_bmi_is) + bmi, Toast.LENGTH_LONG).show();
         binding.result.setText(getString(R.string.your_bmi_is) + bmi);
-        new AlertDialog.Builder(this)
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra("BMI", bmi);
+        startActivity(intent);
+
+        /*new AlertDialog.Builder(this)
                 .setTitle("BMI")
                 .setMessage(getString(R.string.your_bmi_is) + bmi)
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -54,6 +97,6 @@ public class MainActivity extends AppCompatActivity {
                         binding.height.setText("");
                     }
                 })
-                .show();
+                .show();*/
     }
 }
